@@ -9,18 +9,17 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class AudioVisualizer extends Application {
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH = 800;  // Larghezza della finestra
+    private static final int HEIGHT = 600; // Altezza della finestra
     private AudioProcessor audioProcessor;
 
     @Override
     public void start(Stage stage) {
-        // Create audio processor
+        // Crea il processore audio
         audioProcessor = new AudioProcessor("src/main/resources/audio.mp3");
         audioProcessor.startAudio();
 
-
-        // Get the audio analyzer from the processor
+        // Ottieni l'analizzatore audio dal processore
         AudioAnalyzer analyzer = audioProcessor.getAnalyzer();
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
@@ -31,28 +30,45 @@ public class AudioVisualizer extends Application {
         stage.setScene(scene);
         stage.show();
 
-        // Animation timer to update visualization
+        // Timer di animazione per aggiornare la visualizzazione
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                gc.setFill(Color.BLACK);
-                gc.fillRect(0, 0, WIDTH, HEIGHT);
+                gc.setFill(Color.BLACK);  // Imposta il colore di sfondo
+                gc.fillRect(0, 0, WIDTH, HEIGHT);  // Pulisce lo schermo
 
-                // Get frequencies from the analyzer
+                // Ottieni le frequenze dall'analizzatore
                 float[] frequencies = analyzer.getFrequencies();
 
                 if (frequencies != null && frequencies.length > 0) {
-                    // Visualize frequencies as bars
+                    // Troviamo il valore massimo tra le frequenze per normalizzare
+                    float maxFrequency = 0;
                     for (int i = 0; i < frequencies.length; i++) {
-                        double barHeight = frequencies[i] * HEIGHT;
-                        gc.setFill(Color.hsb(i * 360.0 / frequencies.length, 1, 1));
-                        gc.fillRect(i * (WIDTH / frequencies.length), HEIGHT - barHeight, WIDTH / frequencies.length, barHeight);
+                        maxFrequency = Math.max(maxFrequency, frequencies[i]);
+                    }
+
+                    // Calcoliamo la larghezza di ciascuna barra in base alla larghezza del canvas
+                    double barWidth = (double) WIDTH / frequencies.length;
+
+                    // Visualizza le frequenze come barre
+                    for (int i = 0; i < frequencies.length; i++) {
+                        // Normalizza la frequenza (valore tra 0 e 1)
+                        float normalizedFreq = frequencies[i] / maxFrequency;
+
+                        // Imposta la dimensione della barra in base alla frequenza normalizzata
+                        double barHeight = normalizedFreq * HEIGHT;
+
+                        // Imposta il colore in base alla frequenza
+                        gc.setFill(Color.hsb(i * 360.0 / frequencies.length, 1, 1));  // Colore progressivo
+
+                        // Visualizza la barra in modo che si estenda su tutta la finestra
+                        gc.fillRect(i * barWidth, HEIGHT - barHeight, barWidth, barHeight);
                     }
                 }
             }
         }.start();
 
-        // Start audio playback (optional)
+        // Avvia la riproduzione audio (opzionale)
         audioProcessor.startAudio();
     }
 
