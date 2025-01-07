@@ -12,14 +12,10 @@ public class AudioVisualizer extends Application {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
     private AudioProcessor audioProcessor;
-    private AudioAnalyzer audioAnalyzer;
 
     @Override
     public void start(Stage stage) {
         audioProcessor = new AudioProcessor("src/main/resources/audio.mp3");
-        audioProcessor.startAudio();  // Avvia la riproduzione audio
-
-        audioAnalyzer = new AudioAnalyzer("src/main/resources/audio.mp3");  // Avvia analisi audio
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -36,9 +32,17 @@ public class AudioVisualizer extends Application {
                 gc.setFill(Color.BLACK);
                 gc.fillRect(0, 0, WIDTH, HEIGHT);
 
-                double volume = audioProcessor.getVolumeLevel();
-                gc.setFill(Color.hsb(volume * 360, 1, 1));
-                gc.fillOval(WIDTH / 2 - 50, HEIGHT / 2 - 50, 100, 100);
+                // Ottieni le frequenze per la visualizzazione
+                float[] frequencies = audioProcessor.getFrequencies();
+
+                if (frequencies != null && frequencies.length > 0) {
+                    // Visualizza le frequenze come barre
+                    for (int i = 0; i < frequencies.length; i++) {
+                        double barHeight = frequencies[i] * HEIGHT;
+                        gc.setFill(Color.hsb(i * 360.0 / frequencies.length, 1, 1));
+                        gc.fillRect(i * (WIDTH / frequencies.length), HEIGHT - barHeight, WIDTH / frequencies.length, barHeight);
+                    }
+                }
             }
         }.start();
     }

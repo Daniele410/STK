@@ -2,9 +2,9 @@ package com.danozzo;
 
 public class Main {
     public static void main(String[] args) {
-        AudioAnalyzer audioAnalyzer = new AudioAnalyzer("src/main/resources/audio.mp3");
-        audioAnalyzer.startAnalysis();
+       /* AudioProcessor audioProcessor = new AudioProcessor("src/main/resources/audio.mp3");
+        audioProcessor.startAudio();  // Avvia la riproduzione audio*/
 
-        AudioVisualizer.launch(AudioVisualizer.class, args);
+        AudioVisualizer.launch(AudioVisualizer.class, args);  // Avvia la visualizzazione audio
     }
 }
