@@ -122,7 +122,7 @@ public class AudioVisualizer extends Application {
         }.start();
 
         // Avvia la riproduzione audio (opzionale)
-        audioProcessor.startAudio();
+//        audioProcessor.startAudio();
     }
 
     public static void main(String[] args) {
