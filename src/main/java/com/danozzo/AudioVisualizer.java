@@ -33,7 +33,7 @@ public class AudioVisualizer extends Application {
         changeEffectButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px;");
         changeEffectButton.setOnAction(e -> {
             // Cambia l'effetto
-            effectMode = (effectMode + 1) % 3;  // Passa tra 3 modalità di visualizzazione
+            effectMode = (effectMode + 1) % 4;  // Passa tra 4 modalità di visualizzazione
         });
 
         // Layout per posizionare il bottone in alto a destra
@@ -80,49 +80,63 @@ public class AudioVisualizer extends Application {
 
                     // A seconda dell'effetto selezionato, visualizza le frequenze
                     switch (effectMode) {
-                        case 0: // Effetto barre
+                        case 0: // Effetto barre con profondità Z
                             for (int i = 0; i < frequencies.length; i++) {
                                 // Normalizza la frequenza (valore tra 0 e 1)
                                 float normalizedFreq = frequencies[i] / maxFrequency;
                                 double barHeight = normalizedFreq * canvas.getHeight();
+                                double depth = Math.sin(i * Math.PI / frequencies.length) * 100;  // Aggiungi profondità
                                 gc.setFill(Color.hsb(i * 360.0 / frequencies.length, 1, 1));  // Colore progressivo
-                                gc.fillRect(i * barWidth, canvas.getHeight() - barHeight, barWidth, barHeight);
+                                gc.fillRect(i * barWidth + depth, canvas.getHeight() - barHeight, barWidth, barHeight);
                             }
                             break;
-                        case 1: // Effetto spirale
-                            double angleIncrement = 5; // Incremento dell'angolo per la spirale
-                            for (int i = 0; i < frequencies.length; i++) {
-                                float normalizedFreq = frequencies[i] / maxFrequency;
-                                double radius = normalizedFreq * (canvas.getWidth() / 2);
-                                double angle = i * angleIncrement;
-                                double x = canvas.getWidth() / 2 + radius * Math.cos(Math.toRadians(angle));
-                                double y = canvas.getHeight() / 2 + radius * Math.sin(Math.toRadians(angle));
-                                gc.setFill(Color.hsb(angle, 1, 1));
-                                gc.fillOval(x - 5, y - 5, 10, 10); // Disegna piccoli punti lungo la spirale
-                            }
-                            break;
-                        case 2: // Effetto linee migliorato
+
+                        case 1: // Effetto rotazione 3D
                             double centerX = canvas.getWidth() / 2;
                             double centerY = canvas.getHeight() / 2;
                             for (int i = 0; i < frequencies.length; i++) {
+                                // Normalizza la frequenza (valore tra 0 e 1)
+                                float normalizedFreq = frequencies[i] / maxFrequency;
+                                double angle = (i * 360.0 / frequencies.length) + (now / 100000000.0 * 360); // Ruotare lentamente
+                                double radius = normalizedFreq * (canvas.getWidth() / 4);
+                                double x = centerX + radius * Math.cos(Math.toRadians(angle));
+                                double y = centerY + radius * Math.sin(Math.toRadians(angle));
+                                gc.setFill(Color.hsb(angle, 1, 1));
+                                gc.fillRect(x - 2, y - 2, 4, 4); // Disegna piccoli quadrati ruotanti
+                            }
+                            break;
+
+                        case 2: // Effetto barre con prospettiva 3D
+                            for (int i = 0; i < frequencies.length; i++) {
                                 // Normalizza la frequenza
                                 float normalizedFreq = frequencies[i] / maxFrequency;
-                                double angle = i * (360.0 / frequencies.length);
+                                double barHeight = normalizedFreq * canvas.getHeight();
+                                double distance = Math.cos(i * Math.PI / frequencies.length) * 200;  // Aggiungi distorsione prospettica
+                                gc.setFill(Color.hsb(i * 360.0 / frequencies.length, 1, 1));  // Colore progressivo
+                                gc.fillRect(i * barWidth + distance, canvas.getHeight() - barHeight, barWidth, barHeight);
+                            }
+                            break;
+
+                        case 3: // Effetto linee 3D rotanti
+                            double rotationAngle = now / 1000000000.0 * 360;  // Angolo di rotazione continuo
+                            for (int i = 0; i < frequencies.length; i++) {
+                                float normalizedFreq = frequencies[i] / maxFrequency;
+                                double angle = i * (360.0 / frequencies.length) + rotationAngle;
+                                double radius = normalizedFreq * (canvas.getWidth() / 3);
+                                double x = canvas.getWidth() / 2 + radius * Math.cos(Math.toRadians(angle));
+                                double y = canvas.getHeight() / 2 + radius * Math.sin(Math.toRadians(angle));
                                 double lineLength = normalizedFreq * (canvas.getWidth() / 2);
-                                double endX = centerX + lineLength * Math.cos(Math.toRadians(angle));
-                                double endY = centerY + lineLength * Math.sin(Math.toRadians(angle));
+                                double endX = canvas.getWidth() / 2 + lineLength * Math.cos(Math.toRadians(angle));
+                                double endY = canvas.getHeight() / 2 + lineLength * Math.sin(Math.toRadians(angle));
                                 gc.setStroke(Color.hsb(i * 360.0 / frequencies.length, 1, 1));
                                 gc.setLineWidth(2);
-                                gc.strokeLine(centerX, centerY, endX, endY); // Disegna linee dinamiche
+                                gc.strokeLine(x, y, endX, endY); // Linea rotante 3D
                             }
                             break;
                     }
                 }
             }
         }.start();
-
-        // Avvia la riproduzione audio (opzionale)
-//        audioProcessor.startAudio();
     }
 
     public static void main(String[] args) {
