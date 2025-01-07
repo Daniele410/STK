@@ -1,7 +1,5 @@
 package com.danozzo;
 
-import net.beadsproject.beads.analysis.featureextractors.FFT;
-import net.beadsproject.beads.analysis.featureextractors.PowerSpectrum;
 import net.beadsproject.beads.analysis.segmenters.ShortFrameSegmenter;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.data.SampleManager;
@@ -14,13 +12,11 @@ public class AudioProcessor {
     private AudioContext ac;
     private SamplePlayer player;
     private Gain gain;
-    private FFT fft;
-    private PowerSpectrum powerSpectrum;
+    private AudioAnalyzer analyzer;
 
     public AudioProcessor(String filePath) {
         ac = new AudioContext();
         try {
-            // Carica il file audio
             player = new SamplePlayer(ac, SampleManager.sample(new File(filePath).getAbsolutePath()));
             gain = new Gain(ac, 1, 0.5f);
             gain.addInput(player);
@@ -30,36 +26,32 @@ public class AudioProcessor {
             segmenter.addInput(gain);
             ac.out.addDependent(segmenter);
 
-            fft = new FFT();
-            powerSpectrum = new PowerSpectrum();
-            segmenter.addListener(fft);
-            fft.addListener(powerSpectrum);
+            analyzer = new AudioAnalyzer(ac);
+            analyzer.connectAudioStream(gain); // Connect after adding gain to segmenter
+            analyzer.startAnalysis(); // Start audio analysis
 
-            player.start();
-            ac.start();  // Assicura che il motore audio parta
-
-            System.out.println("FFT e PowerSpectrum inizializzati.");
+            System.out.println("Analizzatore audio inizializzato.");
         } catch (Exception e) {
-            System.out.println("Errore nel caricamento del file audio: " + e.getMessage());
+            System.out.println("Errore durante il caricamento del file audio: " + e.getMessage());
         }
     }
 
     public void startAudio() {
         if (player != null) {
             ac.start();
-            player.start();  // Inizia la riproduzione audio
+            player.start();
         }
     }
 
     public void pauseAudio() {
         if (player != null) {
-            player.pause(true);  // Metti in pausa la riproduzione
+            player.pause(true);
         }
     }
 
     public void resumeAudio() {
         if (player != null) {
-            player.start();  // Continua la riproduzione
+            player.start();
         }
     }
 
@@ -67,12 +59,7 @@ public class AudioProcessor {
         return gain.getGain();
     }
 
-    public float[] getFrequencies() {
-        float[] features = powerSpectrum.getFeatures();
-        if (features == null) {
-            System.out.println("Errore: powerSpectrum.getFeatures() è null");
-            return new float[0];  // Restituisce un array vuoto
-        }
-        return features;  // Restituisce i dati delle frequenze
+    public AudioAnalyzer getAnalyzer() {
+        return analyzer;
     }
 }

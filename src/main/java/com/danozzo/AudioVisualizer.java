@@ -15,7 +15,13 @@ public class AudioVisualizer extends Application {
 
     @Override
     public void start(Stage stage) {
+        // Create audio processor
         audioProcessor = new AudioProcessor("src/main/resources/audio.mp3");
+        audioProcessor.startAudio();
+
+
+        // Get the audio analyzer from the processor
+        AudioAnalyzer analyzer = audioProcessor.getAnalyzer();
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -25,18 +31,18 @@ public class AudioVisualizer extends Application {
         stage.setScene(scene);
         stage.show();
 
-        // Animazione per aggiornare la visualizzazione
+        // Animation timer to update visualization
         new AnimationTimer() {
             @Override
             public void handle(long now) {
                 gc.setFill(Color.BLACK);
                 gc.fillRect(0, 0, WIDTH, HEIGHT);
 
-                // Ottieni le frequenze per la visualizzazione
-                float[] frequencies = audioProcessor.getFrequencies();
+                // Get frequencies from the analyzer
+                float[] frequencies = analyzer.getFrequencies();
 
                 if (frequencies != null && frequencies.length > 0) {
-                    // Visualizza le frequenze come barre
+                    // Visualize frequencies as bars
                     for (int i = 0; i < frequencies.length; i++) {
                         double barHeight = frequencies[i] * HEIGHT;
                         gc.setFill(Color.hsb(i * 360.0 / frequencies.length, 1, 1));
@@ -45,6 +51,9 @@ public class AudioVisualizer extends Application {
                 }
             }
         }.start();
+
+        // Start audio playback (optional)
+        audioProcessor.startAudio();
     }
 
     public static void main(String[] args) {
