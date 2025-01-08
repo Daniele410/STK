@@ -29,11 +29,12 @@ public class AudioAnalyzer {
 
     public void startAnalysis() {
         ac.start(); // Start audio processing
+        System.out.println("AudioContext started.");
     }
 
     public float[] getFrequencies() {
         float[] features = powerSpectrum.getFeatures();
-        if (features == null) {
+        if (features == null || features.length == 0) {
             System.out.println("Errore: powerSpectrum.getFeatures() è null");
             return new float[0];
         }
