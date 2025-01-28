@@ -52,7 +52,7 @@ public class AudioVisualizer extends Application {
         Button stopButton = new Button("Stop");
         stopButton.setOnAction(e -> {
             audioProcessor.stopAudio();
-            isAudioPaused = false;
+            isAudioPaused = true;
         });
 
         Slider progressSlider = new Slider(0, 1, 0);
