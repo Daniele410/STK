@@ -1,26 +1,27 @@
+
 # STK: Simple Toolkit
 
-## Descrizione
+## Description
 
-**STK** è un'applicazione sviluppata per semplificare il lavoro quotidiano degli sviluppatori. Fornisce una serie di
-strumenti utili per gestire file, analizzare dati e migliorare la produttività. L'obiettivo principale del progetto è
-offrire un toolkit versatile, semplice da utilizzare e facilmente estendibile.
+**STK** is an application developed to simplify the daily work of developers. It provides a set of useful tools to
+manage files, analyze data, and improve productivity. The main goal of the project is to offer a versatile toolkit that
+is easy to use and easily extendable.
 
-## Funzionalità principali
+## Main Features
 
-- **Gestione file**: Caricamento, modifica e salvataggio dei file in vari formati.
-- **Analisi dati**: Strumenti per visualizzare e manipolare dataset.
-- **Strumenti personalizzabili**: Estendibilità per integrare nuove funzionalità in base alle esigenze dell'utente.
+- **File Management**: Upload, edit, and save files in various formats.
+- **Data Analysis**: Tools to visualize and manipulate datasets.
+- **Customizable Tools**: Extendability to integrate new features based on user needs.
 
-## Tecnologie utilizzate
+## Technologies Used
 
-- **Linguaggio**: Java
-- **Framework**: JavaFX per l'interfaccia utente
-- **Strumenti di build**: Maven
+- **Language**: Java
+- **Framework**: JavaFX for the user interface
+- **Build Tools**: Maven
 
-## Struttura del progetto
+## Project Structure
 
-La struttura del progetto è organizzata come segue:
+The project structure is organized as follows:
 
 ```
 STK/
@@ -38,57 +39,57 @@ STK/
 └── README.md
 ```
 
-## Prerequisiti
+## Prerequisites
 
-Per eseguire il progetto è necessario avere installato:
+To run the project, you need to have the following installed:
 
-- Java 11 o superiore
+- Java 11 or higher
 - Maven 3.6+
 
-## Istruzioni per l'installazione
+## Installation Instructions
 
-1. Clona il repository:
+1. Clone the repository:
    ```bash
    git clone https://github.com/Daniele410/STK.git
    ```
-2. Accedi alla directory del progetto:
+2. Navigate to the project directory:
    ```bash
    cd STK
    ```
-3. Compila ed esegui il progetto:
+3. Build and run the project:
    ```bash
    mvn clean install
    mvn javafx:run
    ```
 
-## Come utilizzare
+## How to Use
 
-1. Avvia l'applicazione utilizzando Maven o un IDE come IntelliJ IDEA.
-2. Sfrutta le funzionalità disponibili dall'interfaccia utente per:
-    - Caricare e modificare file.
-    - Analizzare dataset.
-    - Configurare nuovi strumenti.
+1. Launch the application using Maven or an IDE such as IntelliJ IDEA.
+2. Use the available features from the user interface to:
+   - Upload and edit files.
+   - Analyze datasets.
+   - Configure new tools.
 
-## Contributi
+## Contributions
 
-Contributi, issue e richieste di nuove funzionalità sono benvenuti! Segui questi passaggi per contribuire:
+Contributions, issues, and feature requests are welcome! To contribute:
 
-1. Fai un fork del repository.
-2. Crea un branch per le tue modifiche:
+1. Fork the repository.
+2. Create a branch for your changes:
    ```bash
-   git checkout -b nome-branch
+   git checkout -b branch-name
    ```
-3. Effettua le modifiche e fai un commit:
+3. Make changes and commit:
    ```bash
-   git commit -m "Descrizione delle modifiche"
+   git commit -m "Description of changes"
    ```
-4. Manda una pull request sul branch principale.
+4. Submit a pull request to the main branch.
 
-## Licenza
+## License
 
-Questo progetto è distribuito sotto licenza MIT. Vedi il file [LICENSE](LICENSE) per maggiori dettagli.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## Autore
+## Author
 
 Daniele Miraglia
 
@@ -96,4 +97,4 @@ Daniele Miraglia
 - [LinkedIn](https://www.linkedin.com/in/daniele-miraglia)
 
 ---
-Grazie per aver scelto STK! Per qualsiasi domanda o supporto, non esitare a contattarmi.
+Thanks for choosing STK! If you have any questions or need support, feel free to contact me.
