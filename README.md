@@ -3,20 +3,22 @@
 
 ## Description
 
-**STK** is an application developed to simplify the daily work of developers. It provides a set of useful tools to
-manage files, analyze data, and improve productivity. The main goal of the project is to offer a versatile toolkit that
-is easy to use and easily extendable.
+**STK** is an application designed to visualize music frequencies with corresponding visual effects. It analyzes audio
+files and generates dynamic, frequency-based visualizations. The primary goal of the project is to provide a tool that
+can visually represent audio frequency data through interactive and customizable effects.
 
 ## Main Features
 
-- **File Management**: Upload, edit, and save files in various formats.
-- **Data Analysis**: Tools to visualize and manipulate datasets.
-- **Customizable Tools**: Extendability to integrate new features based on user needs.
+- **Music Visualization**: Real-time display of audio frequencies through various visual effects.
+- **Audio Analysis**: Analyzes the frequency spectrum of the input music.
+- **Customizable Effects**: Extendable visual effects that react to different audio frequencies.
+- **Interactive User Interface**: Simple and user-friendly interface for displaying the audio visualization.
 
 ## Technologies Used
 
 - **Language**: Java
 - **Framework**: JavaFX for the user interface
+- **Audio Processing**: TarsosDSP for audio analysis
 - **Build Tools**: Maven
 
 ## Project Structure
@@ -29,11 +31,11 @@ STK/
 │   ├── main/
 │   │   ├── java/com/danozzo/
 │   │   │   ├── Main.java
-│   │   │   ├── FileManager.java
-│   │   │   ├── DataAnalyzer.java
-│   │   │   └── ToolkitUtils.java
+│   │   │   ├── AudioVisualizer.java
+│   │   │   ├── AudioProcessor.java
+│   │   │   └── FrequencyAnalyzer.java
 │   │   ├── resources/
-│   │       └── audio.mp3
+│   │       └── sample_audio.mp3
 │   └── test/
 ├── pom.xml
 └── README.md
@@ -65,10 +67,8 @@ To run the project, you need to have the following installed:
 ## How to Use
 
 1. Launch the application using Maven or an IDE such as IntelliJ IDEA.
-2. Use the available features from the user interface to:
-   - Upload and edit files.
-   - Analyze datasets.
-   - Configure new tools.
+2. Upload an audio file (e.g., MP3) from the user interface.
+3. Watch the visual effects change dynamically based on the frequency analysis of the music.
 
 ## Contributions
 
@@ -91,7 +91,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Author
 
-Daniele Miraglia
+Danozzo
 
 - [GitHub](https://github.com/Daniele410)
 - [LinkedIn](https://www.linkedin.com/in/daniele-miraglia)
