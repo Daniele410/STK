@@ -10,15 +10,17 @@ can visually represent audio frequency data through interactive and customizable
 ## Main Features
 
 - **Music Visualization**: Real-time display of audio frequencies through various visual effects.
-- **Audio Analysis**: Analyzes the frequency spectrum of the input music.
+- **Microphone Input**: Live audio analysis from microphone input for real-time visualization.
+- **Audio Analysis**: Analyzes the frequency spectrum of input music or microphone audio.
 - **Customizable Effects**: Extendable visual effects that react to different audio frequencies.
 - **Interactive User Interface**: Simple and user-friendly interface for displaying the audio visualization.
+- **Toggle Between Sources**: Switch between file playback and microphone input with a single button.
 
 ## Technologies Used
 
 - **Language**: Java
 - **Framework**: JavaFX for the user interface
-- **Audio Processing**: TarsosDSP for audio analysis
+- **Audio Processing**: Java Sound API for microphone input and frequency analysis
 - **Build Tools**: Maven
 
 ## Project Structure
@@ -67,8 +69,11 @@ To run the project, you need to have the following installed:
 ## How to Use
 
 1. Launch the application using Maven or an IDE such as IntelliJ IDEA.
-2. Upload an audio file (e.g., MP3) from the user interface.
-3. Watch the visual effects change dynamically based on the frequency analysis of the music.
+2. **File Mode**: Upload an audio file (e.g., MP3) from the user interface and use the playback controls.
+3. **Microphone Mode**: Click the "Toggle Microphone" button to switch to live microphone input.
+4. Watch the visual effects change dynamically based on the frequency analysis of the music or microphone input.
+5. Use the "Change Effect" button to cycle through different visualization modes.
+6. Control volume and playback using the provided sliders and buttons.
 
 ## Contributions
 
