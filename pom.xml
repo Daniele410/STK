@@ -9,52 +9,31 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>clojars</id>
-            <url>https://clojars.org/repo</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <!-- Libreria per analizzare file audio -->
-        <dependency>
-            <groupId>net.beadsproject</groupId>
-            <artifactId>beads</artifactId>
-            <version>3.1</version>
-        </dependency>
-
-        <!-- Libreria per decodificare file MP3 -->
-        <dependency>
-            <groupId>javazoom</groupId>
-            <artifactId>jlayer</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-
         <!-- JavaFX Media -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
-            <version>21.0.2</version>
+            <version>17.0.2</version>
         </dependency>
 
         <!-- JavaFX Base -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
-            <version>21</version>
+            <version>17.0.2</version>
         </dependency>
 
         <!-- JavaFX Controls -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21</version>
+            <version>17.0.2</version>
         </dependency>
     </dependencies>
 
