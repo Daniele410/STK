@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class AudioVisualizer extends Application {
     private AudioProcessor audioProcessor;
@@ -31,6 +32,17 @@ public class AudioVisualizer extends Application {
         changeEffectButton.setOnAction(e -> {
             effectMode = (effectMode + 1) % 4;
             System.out.println("Effect mode changed to: " + effectMode);
+        });
+
+        Button microphoneButton = new Button("Toggle Microphone");
+        microphoneButton.setOnAction(e -> {
+            audioProcessor.toggleMicrophone();
+            if (audioProcessor.isMicrophoneMode()) {
+                microphoneButton.setText("Switch to File");
+                isAudioPaused = false; // Resume visualization when microphone is active
+            } else {
+                microphoneButton.setText("Toggle Microphone");
+            }
         });
 
         Button playButton = new Button("Play");
@@ -59,12 +71,18 @@ public class AudioVisualizer extends Application {
         Slider volumeSlider = new Slider(0, 1, 0.5);
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> audioProcessor.setVolume(newVal.doubleValue()));
 
-        audioProcessor.getMediaPlayer().currentTimeProperty().addListener((obs, oldVal, newVal) -> {
-            progressSlider.setValue(newVal.toMillis() / audioProcessor.getTotalDuration().toMillis());
-        });
+        // Only add media player listener if it's available
+        if (audioProcessor.getMediaPlayer() != null) {
+            audioProcessor.getMediaPlayer().currentTimeProperty().addListener((obs, oldVal, newVal) -> {
+                Duration totalDuration = audioProcessor.getTotalDuration();
+                if (totalDuration != null && totalDuration.toMillis() > 0) {
+                    progressSlider.setValue(newVal.toMillis() / totalDuration.toMillis());
+                }
+            });
+        }
 
         HBox controlsLayout = new HBox(10, playButton, pauseButton, stopButton, progressSlider);
-        HBox effectLayout = new HBox(10, changeEffectButton);
+        HBox effectLayout = new HBox(10, changeEffectButton, microphoneButton);
         VBox volumeLayout = new VBox(10, controlsLayout, effectLayout, volumeSlider);
         StackPane root = new StackPane(canvas, volumeLayout);
         Scene scene = new Scene(root);
@@ -76,11 +94,12 @@ public class AudioVisualizer extends Application {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (isAudioPaused) return;
+                // Don't pause visualization when in microphone mode
+                if (isAudioPaused && !audioProcessor.isMicrophoneMode()) return;
 
                 gc.setFill(Color.BLACK);
                 gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                float[] frequencies = analyzer.getFrequencies();
+                float[] frequencies = audioProcessor.getFrequencies();
 
                 if (frequencies != null && frequencies.length > 0) {
                     float maxFrequency = 0;
